@@ -12,16 +12,16 @@ if ($cart_id != '') {
 	$sub_total = 0;
 	$item_count = 0;
 }
- ?>
+?>
 
 <div class="row">
 	<div class="col-md-12">
 		<h2 class="text-center">My Shopping Cart</h2><hr>
-		<?php if($cart_id == ''): ?>
+		<?php if ($cart_id == '') : ?>
 			<div class="bg-danger">
 				<p class="text-center text-danger">Your shopping cart is empty!</p>
 			</div>
-		<?php else: ?>
+		<?php else : ?>
 			<table class="table table-bordered table-stripped table-condensed">
 				<thead>
 					<th>#</th>
@@ -33,18 +33,18 @@ if ($cart_id != '') {
 				</thead>
 				<tbody>
 					<?php 
-						foreach ($items as $item) {
-							$product_id = $item['id'];
-							$productQ   = $db->query("SELECT * FROM products WHERE id = '{$product_id}' ");
-							$product 	= mysqli_fetch_assoc($productQ);
-							$sArray		= explode(',', $product['sizes']);
-							foreach ($sArray as $sizeString) {
-								$s = explode(':', $sizeString);
-								if ($s[0] == $item['size']) {
-									$available = $s[1];
-								}
-							}
-							?>
+				foreach ($items as $item) {
+					$product_id = $item['id'];
+					$productQ = $db->query("SELECT * FROM products WHERE id = '{$product_id}' ");
+					$product = mysqli_fetch_assoc($productQ);
+					$sArray = explode(',', $product['sizes']);
+					foreach ($sArray as $sizeString) {
+						$s = explode(':', $sizeString);
+						if ($s[0] == $item['size']) {
+							$available = $s[1];
+						}
+					}
+					?>
 							<tr>
 								<td><?= $i; ?></td>
 								<td><?= $product['title']; ?></td>
@@ -53,9 +53,9 @@ if ($cart_id != '') {
 								<button class="btn btn-default btn-xs" onclick="update_cart('removeone', '<?= $product['id']; ?>', '<?= $item['size']; ?>')">-</button>
 									
 									<?= $item['quantity']; ?>
-									<?php if ($item['quantity'] < $available): ?>
+									<?php if ($item['quantity'] < $available) : ?>
 										<button class="btn btn-default btn-xs" onclick="update_cart('addone', '<?= $product['id']; ?>', '<?= $item['size']; ?>')">+</button>
-									<?php else: ?>
+									<?php else : ?>
 										<span class="text-danger">MAX</span>
 									<?php endif ?>
 									
@@ -65,15 +65,15 @@ if ($cart_id != '') {
 							</tr>
 
 				  			<?php 
-				  			$i++; 
-				  			$item_count += $item['quantity'];
-				  			$sub_total  += ($item['quantity'] * $product['price']);
-				  			$tax = TAXRATE * $sub_total;
-				  			$tax = number_format($tax, 2);
-				  			$grand_total = $tax + $sub_total;
+								$i++;
+								$item_count += $item['quantity'];
+								$sub_total += ($item['quantity'] * $product['price']);
+								$tax = TAXRATE * $sub_total;
+								$tax = number_format($tax, 2);
+								$grand_total = $tax + $sub_total;
 
 
-				  			} ?>
+							} ?>
 				</tbody>
 			</table>
 			<legend>Total</legend>
@@ -114,7 +114,7 @@ if ($cart_id != '') {
 		                    <input type="hidden" name="sub_total" value="<?= $sub_total; ?>">
 		                    <input type="hidden" name="grand_total" value="<?= $grand_total; ?>">
 		                    <input type="hidden" name="cart_id" value="<?= $cart_id; ?>">
-		                    <input type="hidden" name="description" value="<?= $item_count.'item'.(($item_count>1)?'s':'').' from NewLooks'; ?>">
+		                    <input type="hidden" name="description" value="<?= $item_count . 'item' . (($item_count > 1) ? 's' : '') . ' from NewLooks'; ?>">
 	                    	<div id="step1" style="display: block;">
 	                    		<div class="form-group col-md-6">
 	                    			<label for="full_name">Full name</label>
@@ -166,7 +166,7 @@ if ($cart_id != '') {
 	                    			<label for="exp-month">Expire month</label>
 	                    			<select id="exp-month" class="form-control" id="" data-stripe="exp_month">
 	                    				<option value=""></option>
-	                    				<?php for ($i=1; $i < 13; $i++):?>
+	                    				<?php for ($i = 1; $i < 13; $i++) : ?>
 	                    					<option value="<?= $i; ?>"><?= $i; ?></option>
 	                    				<?php endfor; ?>
 	                    			</select>
@@ -176,8 +176,8 @@ if ($cart_id != '') {
 	                    			<select id="exp-year" class="form-control" id="" data-stripe="exp_year">
 	                    				<option value=""></option>
 	                    				<?php $yr = date('Y'); ?>
-	                    				<?php for ($i=0; $i < 10; $i++):?>
-	                    					<option value="<?= $yr+$i; ?>"><?= $yr+$i; ?></option>
+	                    				<?php for ($i = 0; $i < 10; $i++) : ?>
+	                    					<option value="<?= $yr + $i; ?>"><?= $yr + $i; ?></option>
 	                    				<?php endfor; ?>
 	                    			</select>
 	                    		</div>
